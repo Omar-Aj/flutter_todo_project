@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_todo_project/pages/home_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
