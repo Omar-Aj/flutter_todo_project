@@ -15,7 +15,7 @@ class UserDetails {
   });
 }
 
-class AuthProvider_ extends ChangeNotifier {
+class AuthenticationProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   late User? _loggedInUser;
@@ -52,7 +52,7 @@ class AuthProvider_ extends ChangeNotifier {
 
       // You can store additional user data in Firebase Firestore or Realtime Database here
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -72,7 +72,7 @@ class AuthProvider_ extends ChangeNotifier {
       // Notify listeners
       notifyListeners();
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -86,7 +86,7 @@ class AuthProvider_ extends ChangeNotifier {
       // Notify listeners
       notifyListeners();
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }

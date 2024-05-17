@@ -3,16 +3,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_todo_project/provider_auth.dart';
+import 'package:flutter_todo_project/components/app_bar.dart';
 
 class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
+
   @override
-  _SignupPageState createState() => _SignupPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
   String? errorMessage = '';
-  Widget _errorMessage() {
+  Text _errorMessage() {
     return Text(
       errorMessage == '' ? '' : 'Umm! $errorMessage.',
       style: TextStyle(
@@ -25,93 +28,92 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _mobileController = TextEditingController();
-  late AuthProvider_ authProvider;
+
+  late AuthenticationProvider authProvider;
 
   @override
   Widget build(BuildContext context) {
-    authProvider = Provider.of<AuthProvider_>(context);
+    authProvider = Provider.of<AuthenticationProvider>(context);
+
+    ThemeData theme = Theme.of(context);
+    ColorScheme colorScheme = theme.colorScheme;
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepPurple[200],
-        title: Text('Sign Up'),
-      ),
+      appBar: appBar(colorScheme, "Sign Up"),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 80.0),
               TextFormField(
-                decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.email_outlined,
-                      color: Colors.deepPurple[200],
-                    ),
-                    labelText: "Enter Email",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    )),
                 controller: _emailController,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              const SizedBox(height: 10.0),
-              TextFormField(
                 decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.password_outlined,
-                      color: Colors.deepPurple[200],
-                    ),
-                    labelText: "Enter Password",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    )),
+                  labelText: "Email",
+                  prefixIcon: const Icon(Icons.email),
+                  prefixIconColor: colorScheme.primary,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                style: const TextStyle(fontSize: 14),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              TextFormField(
                 controller: _passwordController,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              const SizedBox(height: 10.0),
-              TextFormField(
+                obscureText: true,
                 decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.person,
-                      color: Colors.deepPurple[200],
-                    ),
-                    labelText: "Enter Name",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    )),
+                  labelText: "Password",
+                  prefixIcon: const Icon(Icons.password),
+                  prefixIconColor: colorScheme.primary,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                style: const TextStyle(fontSize: 14),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              TextFormField(
                 controller: _nameController,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              const SizedBox(height: 10.0),
-              TextFormField(
                 decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.mobile_friendly,
-                      color: Colors.deepPurple[200],
-                    ),
-                    labelText: "Enter Mobile Number",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    )),
-                controller: _mobileController,
+                  labelText: "Name",
+                  prefixIcon: const Icon(Icons.person),
+                  prefixIconColor: colorScheme.primary,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                style: const TextStyle(fontSize: 14),
               ),
-              SizedBox(height: 30.0),
-              const SizedBox(height: 30.0),
+              const SizedBox(
+                height: 16,
+              ),
+              TextFormField(
+                controller: _mobileController,
+                decoration: InputDecoration(
+                  labelText: "Enter Mobile Number",
+                  prefixIcon: const Icon(Icons.mobile_friendly),
+                  prefixIconColor: colorScheme.primary,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                style: const TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 80),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
                     _handleSignUp();
                   }
                 },
-                child: Text('Sign Up'),
+                child: const Text('Sign Up'),
               ),
             ],
           ),
@@ -158,7 +160,7 @@ class _SignupPageState extends State<SignupPage> {
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Please fill in all fields.'),
         ),
       );

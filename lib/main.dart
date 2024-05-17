@@ -5,13 +5,15 @@ import 'package:flutter_todo_project/firebase_options.dart';
 import 'package:flutter_todo_project/provider_auth.dart';
 import 'package:flutter_todo_project/pages/login_page.dart';
 import 'package:flutter_todo_project/pages/signup_page.dart';
+import 'package:flutter_todo_project/pages/home_page.dart';
+import 'package:flutter_todo_project/pages/pomodoro_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(ChangeNotifierProvider(
-    create: (context) => AuthProvider_(),
-    child: App(),
+    create: (context) => AuthenticationProvider(),
+    child: const App(),
   ));
 }
 
@@ -21,12 +23,14 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
-        '/': (context) => LoginPage(),
-        '/signup': (context) => SignupPage(),
+        '/login': (context) => const LoginPage(),
+        '/home': (context) => HomePage(),
+        '/signup': (context) => const SignupPage(),
+        '/pomodoro': (context) => PomodoroPage(),
       },
-      title: 'Flutter Todo Project',
+      title: 'Todo Project',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
