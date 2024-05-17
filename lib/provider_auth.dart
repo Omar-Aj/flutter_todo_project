@@ -36,14 +36,6 @@ class AuthenticationProvider extends ChangeNotifier {
         password: password,
       );
 
-      // Create UserDetails object
-      UserDetails userDetails = UserDetails(
-        email: email,
-        password: password,
-        name: name,
-        mobileNumber: mobileNumber,
-      );
-
       // Update loggedInUser
       _loggedInUser = _auth.currentUser;
 
