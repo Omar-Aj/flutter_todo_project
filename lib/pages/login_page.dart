@@ -131,12 +131,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _handleSignin() {
+  Future<void> _handleSignin() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
     try {
-      authProvider.signIn(email: email, password: password);
+      await authProvider.signIn(email: email, password: password);
       Navigator.pushNamed(context, '/home');
     } catch (e) {
       setState(() {
