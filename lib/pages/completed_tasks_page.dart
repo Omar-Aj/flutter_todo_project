@@ -39,15 +39,6 @@ class _CompletedTaskPageState extends State<CompletedTaskPage> {
                 },
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomePage()),
-                );
-              },
-              child: const Text('Return to To-Do List Page'),
-            ),
           ],
         ),
       ),
