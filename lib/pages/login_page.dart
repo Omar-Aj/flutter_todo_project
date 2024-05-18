@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 16.0),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, '/signup');
+                  Navigator.of(context).pushNamed('/signup');
                 },
                 child: const Text('Don\'t have an account? Sign Up'),
               ),
@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       await authProvider.signIn(email: email, password: password);
-      Navigator.pushNamed(context, '/home');
+      Navigator.of(context).pushReplacementNamed('/home');
     } catch (e) {
       setState(() {
         errorMessage = e.toString();

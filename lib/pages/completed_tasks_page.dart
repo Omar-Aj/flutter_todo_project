@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_todo_project/components/app_bar.dart';
-import 'package:flutter_todo_project/pages/home_page.dart';
+import 'package:flutter_todo_project/provider_tasks.dart';
 
 class CompletedTaskPage extends StatefulWidget {
-  final List<String> completedTasks;
-
-  const CompletedTaskPage({super.key, required this.completedTasks});
+  const CompletedTaskPage({super.key});
 
   @override
   State<CompletedTaskPage> createState() => _CompletedTaskPageState();
 }
 
 class _CompletedTaskPageState extends State<CompletedTaskPage> {
+  late TasksProvider tasksProvider;
+  late List<String> completedTasks = tasksProvider.completedTasks;
+
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     ColorScheme colorScheme = theme.colorScheme;
+
+    tasksProvider = Provider.of<TasksProvider>(context);
 
     return Scaffold(
       appBar: appBar(colorScheme, "Completed Tasks"),
@@ -25,14 +29,14 @@ class _CompletedTaskPageState extends State<CompletedTaskPage> {
           children: <Widget>[
             Expanded(
               child: ListView.builder(
-                itemCount: widget.completedTasks.length,
+                itemCount: completedTasks.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(widget.completedTasks[index]),
+                    title: Text(completedTasks[index]),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () {
-                        _deleteTask(index);
+                        _deleteTaskFromCompleted(index);
                       },
                     ),
                   );
@@ -45,9 +49,7 @@ class _CompletedTaskPageState extends State<CompletedTaskPage> {
     );
   }
 
-  void _deleteTask(int index) {
-    setState(() {
-      widget.completedTasks.removeAt(index);
-    });
+  void _deleteTaskFromCompleted(int index) {
+    tasksProvider.deleteTaskFromCompleted(index);
   }
 }

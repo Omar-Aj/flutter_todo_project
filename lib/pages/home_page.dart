@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todo_project/components/app_bar.dart';
 import 'package:flutter_todo_project/pages/completed_tasks_page.dart';
+import 'package:flutter_todo_project/pages/pomodoro_page.dart';
+import 'package:flutter_todo_project/pages/tasks_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int currentPageIndex = 1;
+
+  final List _pages = [
+    const CompletedTaskPage(),
+    const TasksPage(),
+    const PomodoroPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -11,92 +25,33 @@ class HomePage extends StatelessWidget {
     ColorScheme colorScheme = theme.colorScheme;
 
     return Scaffold(
-      appBar: appBar(colorScheme, "Home"),
-      body: const TodoListBody(),
-    );
-  }
-}
-
-class TodoListBody extends StatefulWidget {
-  const TodoListBody({super.key});
-
-  @override
-  State<TodoListBody> createState() => _TodoListBodyState();
-}
-
-class _TodoListBodyState extends State<TodoListBody> {
-  List<String> tasks = [];
-  List<String> completedTasks = [];
-  final TextEditingController _controller = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            controller: _controller,
-            decoration: InputDecoration(
-              hintText: 'Enter your task',
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  setState(() {
-                    tasks.add(_controller.text);
-                    _controller.clear();
-                  });
-                },
-              ),
-            ),
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        indicatorColor: colorScheme.secondaryContainer,
+        selectedIndex: currentPageIndex,
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.check_box),
+            icon: Icon(Icons.check_box_outlined),
+            label: 'Completed Tasks',
           ),
-        ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: tasks.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(tasks[index]),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        setState(() {
-                          tasks.removeAt(index);
-                        });
-                      },
-                    ),
-                    Checkbox(
-                      value: false,
-                      onChanged: (isChecked) {
-                        if (isChecked!) {
-                          setState(() {
-                            completedTasks.add(tasks[index]);
-                            tasks.removeAt(index);
-                          });
-                        }
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
           ),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      CompletedTaskPage(completedTasks: completedTasks)),
-            );
-          },
-          child: const Text('Go to Completed Task Page'),
-        ),
-      ],
+          NavigationDestination(
+            selectedIcon: Icon(Icons.timer),
+            icon: Icon(Icons.timer_outlined),
+            label: 'Pomodoro',
+          ),
+        ],
+      ),
+      body: _pages[currentPageIndex],
     );
   }
 }

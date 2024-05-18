@@ -24,6 +24,7 @@ class _PomodoroPageState extends State<PomodoroPage> {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     ColorScheme colorScheme = theme.colorScheme;
+
     return Scaffold(
       appBar: appBar(colorScheme, "Pomodoro"),
       body: Container(
