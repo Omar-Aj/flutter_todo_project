@@ -97,7 +97,7 @@ class _SignupPageState extends State<SignupPage> {
               TextFormField(
                 controller: _mobileController,
                 decoration: InputDecoration(
-                  labelText: "Enter Mobile Number",
+                  labelText: "Mobile Number",
                   prefixIcon: const Icon(Icons.mobile_friendly),
                   prefixIconColor: colorScheme.primary,
                   border: OutlineInputBorder(
